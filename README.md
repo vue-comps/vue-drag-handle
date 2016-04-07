@@ -23,21 +23,28 @@ components:
 components:
   "drag-handle": window.vueComps.dragHandle
 ```
-#### Options
+#### Props
 | Name | type | default | description |
 | ---:| --- | ---| --- |
 | factor | Number | 2 | factor which is multiplied with the movement |
-| zIndex | Number | 1001 | z-index of the overlay |
-| maxOpen | Number | null | (required) maximum position |
-| widthOpened | String | "70%" | width when opened |
-| widthClosed | String | "20px" | width when closed |
+| z-index | Number | 1002 | z-index of the overlay |
+| max-width | Number | null | (required) maximum width |
+| width-opened | String | "70%" | width when opened |
+| width-closed | String | "20px" | width when closed |
 | left | Boolean | true | is left when closed |
 | dismissable | Boolean | true | can it get closed by click or ESC? |
-| onMove | Function | null | (required) will be called with the current position |
-| onOpen | Function | null | (required) will be called when opened successfully |
-| onOpenAbort | Function | onClose | will be called when opened unsuccessfully |
-| onClose | Function | null | (required) will be called when closed successfully |
-| onCloseAbort | Function | onOpen | will be called when closed unsuccessfully |
+| is-opened | Boolean | can two-way sync. Will not emit `opened` or `closed` |
+
+
+#### Events
+| Name |  description |
+| ---:| --- |
+| move |  will be called with the current position |
+| opened |  will be called when opened successfully |
+| open-aborted | will be called when opened unsuccessfully |
+| closed |  will be called when closed successfully |
+| close-aborted |  will be called when closed unsuccessfully |
+
 
 # Development
 Clone repository

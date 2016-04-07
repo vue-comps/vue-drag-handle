@@ -2,7 +2,6 @@
 .container
   .thing(v-bind:style="style")
   drag-handle(
-    v-ref:drag-target
     v-bind:on-move="move"
     v-bind:on-open="open"
     v-bind:on-close="close"

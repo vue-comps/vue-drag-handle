@@ -5,6 +5,7 @@
   @click="dismiss"
   @keyup.esc="dismiss"
   v-touch:pan="onPan"
+  v-bind:class="{disabled:disabled}"
   )
 </template>
 
@@ -20,20 +21,7 @@ module.exports =
     "left":
       type: Boolean
       default: true
-    "onMove":
-      type: Function
-      required: true
-    "onOpen":
-      type: Function
-      required: true
-    "onOpenAbort":
-      type: Function
-    "onClose":
-      type: Function
-      required: true
-    "onCloseAbort":
-      type: Function
-    "maxOpen":
+    "maxWidth":
       type:Number
       required: true
     "widthOpened":
@@ -47,71 +35,82 @@ module.exports =
       default: true
     "zIndex":
       type:Number
-      default: 1001
-
+      default: 1002
+    "isOpened":
+      type:Boolean
+      default: false
+    "disabled":
+      type: Boolean
+      default: false
   data: ->
     style:
       height: "100%"
       position: "absolute"
       top: 0
-      "z-index": @zIndex
+      zIndex: @zIndex
       right: undefined
       left: undefined
       width: @widthClosed
     opened: false
 
   compiled: ->
-    @onCloseAbort = @onOpen unless @onCloseAbort?
-    @onOpenAbort = @onClose unless @onOpenAbort?
     @send()
 
   watch:
-    "zIndex": (val) -> @style["z-index"] = val
+    "zIndex": (val) -> @style.zIndex = val
+    "isOpened": (val) ->
+      if val != @opened
+        if val
+          @open(false)
+        else
+          @close(false)
 
   methods:
     dismiss: (e) ->
-      if @opened and @dismissable and not e.defaultPrevented
+      if !@disabled and @isOpened and @dismissable and not e.defaultPrevented
         @close()
         e.preventDefault()
     send: ->
-      if (@opened and !@left) or (!@opened and @left)
+      if (@isOpened and !@left) or (!@isOpened and @left)
         @style.right = undefined
         @style.left = 0
       else
         @style.right = 0
         @style.left = undefined
-    open: ->
+    open: (emit=true) ->
       @opened = true
+      @isOpened = true
       @style.width = @widthOpened
       @send()
-      @onOpen()
-    close: ->
+      @$emit "opened" if emit
+    close: (emit=true) ->
       @opened = false
+      @isOpened = false
       @style.width = @widthClosed
       @send()
-      @onClose()
+      @$emit "closed" if emit
     onPan: (e) ->
-      if e.type == "pan"
+      if !@disabled and e.type == "pan"
         e.preventDefault()
         e.srcEvent.stopPropagation()
         dX = e.deltaX*@factor
         dX = -dX unless @left
         if e.isFinal
           if @opened
-            if dX <= -@maxOpen
+            if dX <= -@maxWidth
               @close()
             else
-              @onCloseAbort()
+              @$emit "close-aborted"
           else
-            if dX >= @maxOpen
+            if dX >= @maxWidth
               @open()
             else
-              @onOpenAbort()
+              @$emit "open-aborted"
         else
           if @opened
-            if dX< 0 and dX >= -@maxOpen
-              @onMove(@maxOpen+dX)
+            if dX< 0 and dX >= -@maxWidth
+              @$emit "move", @maxWidth+dX
           else
-            if dX > 0 and dX <= @maxOpen
-              @onMove(dX)
+            if dX > 0 and dX <= @maxWidth
+              @$emit "move", dX
 </script>
