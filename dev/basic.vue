@@ -8,7 +8,7 @@
     v-bind:on-close="close"
     v-bind:max-open="200"
   )
-  p << drag
+  p &lt;&lt; drag
   p(style="left:200px;top:30px;position:relative") the gray area is the drag handle
   p(style="left:200px;top:30px;position:relative") the red area is the drag target
   a(href="https://github.com/vue-comps/vue-side-nav/blob/master/dev/basic.vue") source

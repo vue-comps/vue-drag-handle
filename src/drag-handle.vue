@@ -2,18 +2,14 @@
 <template lang="jade">
 .vc-drag-handle(
   v-bind:style="style"
-  @click="dismiss | notPrevented | prevent"
-  @keyup.esc="dismiss | notPrevented | prevent"
+  @click="dismiss"
+  @keyup.esc="dismiss"
   v-touch:pan="onPan"
   )
 </template>
 
 <script lang="coffee">
 module.exports =
-
-  filters:
-    notPrevented: require("vue-filters/notPrevented")
-    prevent: require("vue-filters/prevent")
 
   el: -> document.createElement "div"
 
@@ -73,7 +69,10 @@ module.exports =
     "zIndex": (val) -> @style["z-index"] = val
 
   methods:
-    dismiss: -> @close() if @dismissable
+    dismiss: (e) ->
+      if @opened and @dismissable and not e.defaultPrevented
+        @close()
+        e.preventDefault()
     send: ->
       if (@opened and !@left) or (!@opened and @left)
         @style.right = undefined

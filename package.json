@@ -17,7 +17,6 @@
     "node": "*"
   },
   "dependencies": {
-    "vue-filters": "^0.1.6"
   },
   "peerDependencies": {
     "vue-touch": "^1.0.2"
