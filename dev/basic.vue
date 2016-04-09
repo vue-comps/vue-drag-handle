@@ -2,10 +2,12 @@
 .container
   .thing(v-bind:style="style")
   drag-handle(
-    v-bind:on-move="move"
-    v-bind:on-open="open"
-    v-bind:on-close="close"
-    v-bind:max-open="200"
+    @move="move"
+    @opened="open"
+    @open-aborted="close"
+    @closed="close"
+    @close-aborted="open"
+    v-bind:max-width="200"
   )
   p &lt;&lt; drag
   p(style="left:200px;top:30px;position:relative") the gray area is the drag handle

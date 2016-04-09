@@ -31,9 +31,9 @@ components:
 | max-width | Number | null | (required) maximum width |
 | width-opened | String | "70%" | width when opened |
 | width-closed | String | "20px" | width when closed |
-| left | Boolean | true | is left when closed |
-| dismissable | Boolean | true | can it get closed by click or ESC? |
-| is-opened | Boolean | can two-way sync. Will not emit `opened` or `closed` |
+| right | Boolean | false | is right or left when closed |
+| not-dismissible | Boolean | false | should it stay open on click or ESC |
+| is-opened | Boolean |  false | can two-way sync. Will not emit `opened` or `closed` |
 
 
 #### Events

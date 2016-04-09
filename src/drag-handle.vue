@@ -12,15 +12,17 @@
 <script lang="coffee">
 module.exports =
 
-  el: -> document.createElement "div"
+  mixins:[
+    require("vue-mixins/isOpened")
+  ]
 
   props:
     "factor":
       type:Number
       default: 2
-    "left":
+    "right":
       type: Boolean
-      default: true
+      default: false
     "maxWidth":
       type:Number
       required: true
@@ -30,15 +32,12 @@ module.exports =
     "widthClosed":
       type:String
       default:"20px"
-    "dismissable":
+    "notDismissible":
       type:Boolean
-      default: true
+      default: false
     "zIndex":
       type:Number
       default: 1002
-    "isOpened":
-      type:Boolean
-      default: false
     "disabled":
       type: Boolean
       default: false
@@ -51,41 +50,32 @@ module.exports =
       right: undefined
       left: undefined
       width: @widthClosed
-    opened: false
 
   compiled: ->
     @send()
 
   watch:
     "zIndex": (val) -> @style.zIndex = val
-    "isOpened": (val) ->
-      if val != @opened
-        if val
-          @open(false)
-        else
-          @close(false)
 
   methods:
     dismiss: (e) ->
-      if !@disabled and @isOpened and @dismissable and not e.defaultPrevented
+      if !@disabled and @isOpened and not @notDismissible and not e.defaultPrevented
         @close()
         e.preventDefault()
     send: ->
-      if (@isOpened and !@left) or (!@isOpened and @left)
+      if (@opened and @right) or (!@opened and !@right)
         @style.right = undefined
         @style.left = 0
       else
         @style.right = 0
         @style.left = undefined
     open: (emit=true) ->
-      @opened = true
-      @isOpened = true
+      @setOpened()
       @style.width = @widthOpened
       @send()
       @$emit "opened" if emit
     close: (emit=true) ->
-      @opened = false
-      @isOpened = false
+      @setClosed()
       @style.width = @widthClosed
       @send()
       @$emit "closed" if emit
@@ -94,7 +84,7 @@ module.exports =
         e.preventDefault()
         e.srcEvent.stopPropagation()
         dX = e.deltaX*@factor
-        dX = -dX unless @left
+        dX = -dX if @right
         if e.isFinal
           if @opened
             if dX <= -@maxWidth
@@ -113,4 +103,9 @@ module.exports =
           else
             if dX > 0 and dX <= @maxWidth
               @$emit "move", dX
+    toggle: ->
+      if @opened
+        @close(false)
+      else
+        @open(false)
 </script>
