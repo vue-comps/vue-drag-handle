@@ -23,6 +23,16 @@ components:
 components:
   "drag-handle": window.vueComps.dragHandle
 ```
+```html
+  <drag-handle
+    @move="move"
+    @opened="open"
+    @open-aborted="close"
+    @closed="close"
+    @close-aborted="open"
+    :max-width="200"
+  ></drag-handle>
+```
 #### Props
 | Name | type | default | description |
 | ---:| --- | ---| --- |
