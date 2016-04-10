@@ -2,14 +2,14 @@
 
 To make something responsive to dragging, a drag-handle is needed.
 
-### [See it in action](https://vue-comps.github.io/vue-drag-handle)
+### [Demo](https://vue-comps.github.io/vue-drag-handle)
 
 # Install
 
 ```sh
 npm install --save-dev vue-drag-handle vue-touch
 ```
-or include `build/bundle.js`
+or include `build/bundle.js`.
 
 ## Usage
 ```coffee
@@ -24,14 +24,14 @@ components:
   "drag-handle": window.vueComps.dragHandle
 ```
 ```html
-  <drag-handle
-    @move="move"
-    @opened="open"
-    @open-aborted="close"
-    @closed="close"
-    @close-aborted="open"
-    :max-width="200"
-  ></drag-handle>
+<drag-handle
+  @move="move"
+  @opened="open"
+  @open-aborted="close"
+  @closed="close"
+  @close-aborted="open"
+  :max-width="200"
+></drag-handle>
 ```
 #### Props
 | Name | type | default | description |
@@ -57,12 +57,12 @@ components:
 
 
 # Development
-Clone repository
+Clone repository.
 ```sh
 npm install
 npm run dev
 ```
-Browse to `http://localhost:8080/`
+Browse to `http://localhost:8080/`.
 
 ## License
 Copyright (c) 2016 Paul Pflugradt
