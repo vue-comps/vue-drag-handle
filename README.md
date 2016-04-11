@@ -4,6 +4,9 @@ To make something responsive to dragging, a drag-handle is needed.
 
 ### [Demo](https://vue-comps.github.io/vue-drag-handle)
 
+### Used in
+[side-nav](https://vue-comps.github.io/vue-side-nav)
+
 # Install
 
 ```sh
