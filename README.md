@@ -44,6 +44,7 @@ components:
 | right | Boolean | false | is right or left when closed |
 | not-dismissible | Boolean | false | should it stay open on click or ESC |
 | is-opened | Boolean |  false | can two-way sync. Will not emit `opened` or `closed` |
+| disabled | Boolean |  false | set to disable |
 
 
 #### Events

@@ -7,11 +7,13 @@
     @open-aborted="close"
     @closed="close"
     @close-aborted="open"
+    v-bind:disabled="!active"
     v-bind:max-width="200"
   )
   p &lt;&lt; drag
   p(style="left:200px;top:30px;position:relative") the gray area is the drag handle
   p(style="left:200px;top:30px;position:relative") the red area is the drag target
+  button(@click="toggle" style="left:200px;top:30px;position:relative") toggle
   a(href="https://github.com/vue-comps/vue-side-nav/blob/master/dev/basic.vue") source
 </template>
 
@@ -24,6 +26,7 @@ module.exports =
     Vue = @getVue()
     Vue.use(require('vue-touch'))
   data: ->
+    active: true
     style:
       top: 0
       width: "200px"
@@ -34,6 +37,8 @@ module.exports =
   components:
     "drag-handle" : require "../src/drag-handle.vue"
   methods:
+    toggle: ->
+      @active = !@active
     move: (position) ->
       @style.left = -200+position+ "px"
     open: ->

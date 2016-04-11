@@ -6,6 +6,7 @@
   @keyup.esc="dismiss"
   v-touch:pan="onPan"
   v-bind:class="{disabled:disabled}"
+  v-if="!disabled"
   )
 </template>
 
@@ -56,10 +57,9 @@ module.exports =
 
   watch:
     "zIndex": (val) -> @style.zIndex = val
-
   methods:
     dismiss: (e) ->
-      if !@disabled and @isOpened and not @notDismissible and not e.defaultPrevented
+      if @isOpened and not @notDismissible and not e.defaultPrevented
         @close()
         e.preventDefault()
     send: ->
@@ -80,7 +80,7 @@ module.exports =
       @send()
       @$emit "closed" if emit
     onPan: (e) ->
-      if !@disabled and e.type == "pan"
+      if e.type == "pan"
         e.preventDefault()
         e.srcEvent.stopPropagation()
         dX = e.deltaX*@factor
