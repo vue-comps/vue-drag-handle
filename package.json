@@ -17,7 +17,7 @@
     "node": "*"
   },
   "dependencies": {
-    "vue-mixins": "^0.2.3"
+
   },
   "peerDependencies": {
     "vue-touch": "^1.0.2"
@@ -61,6 +61,7 @@
     "vue-style-loader": "^1.0.0",
     "vueify-insert-css": "^1.0.0",
     "webpack": "^1.12.14",
+    "vue-mixins": "^0.2.5",
     "vue-touch": "^1.0.2"
   },
   "keywords": [
