@@ -1,7 +1,7 @@
 {
   "name": "vue-drag-handle",
   "description": "a touch handle to drag something",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "homepage": "https://github.com/vue-comps",
   "author": {
     "name": "Paul Pflugradt",
@@ -16,9 +16,7 @@
   "engines": {
     "node": "*"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "peerDependencies": {
     "vue-touch": "^1.0.2"
   },
