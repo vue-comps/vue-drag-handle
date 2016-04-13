@@ -5,7 +5,8 @@ To make something responsive to dragging, a drag-handle is needed.
 ### [Demo](https://vue-comps.github.io/vue-drag-handle)
 
 ### Used in
-[side-nav](https://vue-comps.github.io/vue-side-nav)
+- [side-nav](https://vue-comps.github.io/vue-side-nav)
+- [materialize:toaster](https://github.com/paulpflug/vue-materialize#toaster)
 
 # Install
 
@@ -29,35 +30,30 @@ components:
 ```html
 <drag-handle
   @move="move"
-  @opened="open"
-  @open-aborted="close"
-  @closed="close"
-  @close-aborted="open"
-  :max-width="200"
+  @left="open"
+  @aborted="close"
+  :max-left="200"
 ></drag-handle>
 ```
 #### Props
 | Name | type | default | description |
 | ---:| --- | ---| --- |
-| factor | Number | 2 | factor which is multiplied with the movement |
+| factor | Number | 2 | speed factor which is multiplied with the movement |
 | z-index | Number | 1002 | z-index of the overlay |
-| max-width | Number | null | (required) maximum width |
-| width-opened | String | "70%" | width when opened |
-| width-closed | String | "20px" | width when closed |
-| right | Boolean | false | is right or left when closed |
-| not-dismissible | Boolean | false | should it stay open on click or ESC |
-| is-opened | Boolean |  false | can two-way sync. Will not emit `opened` or `closed` |
+| max-left | Number | 0 | maximum panning to the left |
+| max-right | Number | 0 | maximum panning to the right |
+| offset | Number | 0 | will be added to the position on `move` event |
 | disabled | Boolean |  false | set to disable |
 
 
 #### Events
 | Name |  description |
 | ---:| --- |
-| move |  will be called with the current position |
-| opened |  will be called when opened successfully |
-| open-aborted | will be called when opened unsuccessfully |
-| closed |  will be called when closed successfully |
-| close-aborted |  will be called when closed unsuccessfully |
+| move |  will be emitted on move. Argument is the current position (can be negative) |
+| left |  will be emitted on end of panning if move reached max-left |
+| right |  will be emitted on end of panning if move reached max-right |
+| aborted | will be called when panning didn't reach max-left or max-right |
+| clean-click | will be emitted on click which is no mouseup of final panning |
 
 
 # Development

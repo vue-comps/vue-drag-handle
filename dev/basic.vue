@@ -3,12 +3,20 @@
   .thing(v-bind:style="style")
   drag-handle(
     @move="move"
-    @opened="open"
-    @open-aborted="close"
-    @closed="close"
-    @close-aborted="open"
-    v-bind:disabled="!active"
-    v-bind:max-width="200"
+    @right="open"
+    @aborted="close"
+    v-bind:disabled="!active || opened"
+    v-bind:max-right="200"
+    style="width: 20px;left:0;"
+  )
+  drag-handle(
+    @move="move"
+    @left="close"
+    @aborted="open"
+    v-bind:disabled="!active || !opened"
+    v-bind:max-left="200"
+    v-bind:offset="200"
+    style="width: 70%;right:0;"
   )
   p &lt;&lt; drag
   p(style="left:200px;top:30px;position:relative") the gray area is the drag handle
@@ -27,13 +35,14 @@ module.exports =
     Vue.use(require('vue-touch'))
   data: ->
     active: true
+    opened: false
     style:
       top: 0
       width: "200px"
       left: "-200px"
       height: "100%"
       position:"absolute"
-      "background-color":"red"
+      backgroundColor:"red"
   components:
     "drag-handle" : require "../src/drag-handle.vue"
   methods:
@@ -43,8 +52,10 @@ module.exports =
       @style.left = -200+position+ "px"
     open: ->
       @style.left = 0
+      @opened = true
     close: ->
       @style.left = "-200px"
+      @opened = false
 </script>
 
 <style lang="stylus">
@@ -52,7 +63,7 @@ module.exports =
   position absolute
   left 250px
   top 40px
-.vc-drag-handle
+.drag-handle
   background-color: black
   opacity 0.5
 </style>

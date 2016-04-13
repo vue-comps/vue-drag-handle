@@ -1,41 +1,30 @@
 // out: ..
 <template lang="jade">
-.vc-drag-handle(
+.drag-handle(
   v-bind:style="style"
-  @click="dismiss"
-  @keyup.esc="dismiss"
   v-touch:pan="onPan"
   v-bind:class="{disabled:disabled}"
-  v-if="!disabled"
+  v-show="!disabled"
+  @click="click"
   )
 </template>
 
 <script lang="coffee">
 module.exports =
 
-  mixins:[
-    require("vue-mixins/isOpened")
-  ]
-
   props:
     "factor":
       type:Number
       default: 2
-    "right":
-      type: Boolean
-      default: false
-    "maxWidth":
+    "maxLeft":
       type:Number
-      required: true
-    "widthOpened":
-      type:String
-      default:"70%"
-    "widthClosed":
-      type:String
-      default:"20px"
-    "notDismissible":
-      type:Boolean
-      default: false
+      default: 0
+    "maxRight":
+      type:Number
+      default: 0
+    "offset":
+      type: Number
+      default: 0
     "zIndex":
       type:Number
       default: 1002
@@ -43,69 +32,46 @@ module.exports =
       type: Boolean
       default: false
   data: ->
+    atMax: false
+    pos: null
     style:
       height: "100%"
       position: "absolute"
       top: 0
       zIndex: @zIndex
-      right: undefined
-      left: undefined
-      width: @widthClosed
-
-  compiled: ->
-    @send()
 
   watch:
     "zIndex": (val) -> @style.zIndex = val
+
   methods:
-    dismiss: (e) ->
-      if @isOpened and not @notDismissible and not e.defaultPrevented
-        @close()
-        e.preventDefault()
-    send: ->
-      if (@opened and @right) or (!@opened and !@right)
-        @style.right = undefined
-        @style.left = 0
-      else
-        @style.right = 0
-        @style.left = undefined
-    open: (emit=true) ->
-      @setOpened()
-      @style.width = @widthOpened
-      @send()
-      @$emit "opened" if emit
-    close: (emit=true) ->
-      @setClosed()
-      @style.width = @widthClosed
-      @send()
-      @$emit "closed" if emit
+    click: (e) ->
+      unless @pos? and @pos.x == e.x and @pos.y == e.y
+        @$emit "clean-click",e
     onPan: (e) ->
       if e.type == "pan"
-        e.preventDefault()
-        e.srcEvent.stopPropagation()
+        e.srcEvent.preventDefault()
         dX = e.deltaX*@factor
-        dX = -dX if @right
+        @pos = null
         if e.isFinal
-          if @opened
-            if dX <= -@maxWidth
-              @close()
-            else
-              @$emit "close-aborted"
+          @pos = x:e.srcEvent.x,y:e.srcEvent.y
+          if @maxRight > 0 and dX >= @maxRight
+            @$emit "right"
+          else if @maxLeft > 0 and dX <= -@maxLeft
+            @$emit "left"
           else
-            if dX >= @maxWidth
-              @open()
-            else
-              @$emit "open-aborted"
-        else
-          if @opened
-            if dX< 0 and dX >= -@maxWidth
-              @$emit "move", @maxWidth+dX
-          else
-            if dX > 0 and dX <= @maxWidth
-              @$emit "move", dX
-    toggle: ->
-      if @opened
-        @close(false)
-      else
-        @open(false)
+            @$emit "aborted"
+        else if @maxRight > 0 and dX >= 0
+          if dX <= @maxRight
+            @$emit "move", dX+@offset
+            @atMax = false
+          else unless @atMax
+            @$emit "move", @maxRight+@offset
+            @atMax = true
+        else if @maxLeft > 0 and dX <= 0
+          if dX >= -@maxLeft
+            @$emit "move", dX+@offset
+            @atMax = false
+          else unless @atMax
+            @$emit "move", -@maxLeft+@offset
+            @atMax = true
 </script>
