@@ -1,13 +1,14 @@
-<template lang="jade">
+<template lang="pug">
 .container
-  .thing(v-bind:style="style")
+  .thing(v-bind:style="style", v-el:thing)
   drag-handle(
     @move="move"
     @right="open"
     @aborted="close"
     v-bind:disabled="!active || opened"
     v-bind:max-right="200"
-    style="width: 20px;left:0;"
+    style="width: 20px;left:0;background-color:black;opacity:0.5"
+    v-ref:opener
   )
   drag-handle(
     @move="move"
@@ -16,23 +17,25 @@
     v-bind:disabled="!active || !opened"
     v-bind:max-left="200"
     v-bind:offset="200"
-    style="width: 70%;right:0;"
+    style="width: 70%;right:0;background-color:black;opacity:0.5"
+    v-ref:closer
   )
   p &lt;&lt; drag
-  p(style="left:200px;top:30px;position:relative") the gray area is the drag handle
-  p(style="left:200px;top:30px;position:relative") the red area is the drag target
-  button(@click="toggle" style="left:200px;top:30px;position:relative") toggle
-  a(href="https://github.com/vue-comps/vue-side-nav/blob/master/dev/basic.vue") source
+  div(style="margin-left:200px")
+    p the gray area is the drag handle
+    p the red area is the drag target
+    button(@click="toggle") {{active ? "disable": "enable"}}
+    br
+    a(href="https://github.com/vue-comps/vue-side-nav/blob/master/dev/basic.vue") source
 </template>
 
 <script lang="coffee">
 module.exports =
   mixins: [
-    require("vue-mixins/getVue")
+    require("vue-mixins/vue")
   ]
   beforeCompile: ->
-    Vue = @getVue()
-    Vue.use(require('vue-touch'))
+    @Vue.use(require('vue-touch'))
   data: ->
     active: true
     opened: false
@@ -57,13 +60,3 @@ module.exports =
       @style.left = "-200px"
       @opened = false
 </script>
-
-<style lang="stylus">
-.container > a
-  position absolute
-  left 250px
-  top 40px
-.drag-handle
-  background-color: black
-  opacity 0.5
-</style>

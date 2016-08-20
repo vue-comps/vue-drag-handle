@@ -35,6 +35,9 @@ components:
   :max-left="200"
 ></drag-handle>
 ```
+
+For examples see [`dev/`](dev/).
+
 #### Props
 | Name | type | default | description |
 | ---:| --- | ---| --- |
@@ -52,7 +55,7 @@ components:
 | move |  will be emitted on move. Argument is the current position (can be negative) |
 | left |  will be emitted on end of panning if move reached max-left |
 | right |  will be emitted on end of panning if move reached max-right |
-| aborted | will be called when panning didn't reach max-left or max-right |
+| aborted | will be emitted when panning didn't reach max-left or max-right |
 | clean-click | will be emitted on click which is no mouseup of final panning |
 
 

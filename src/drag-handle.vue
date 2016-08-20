@@ -1,47 +1,61 @@
 // out: ..
-<template lang="jade">
+<template lang="pug">
 .drag-handle(
-  v-bind:style="style"
+  v-bind:style="computedStyle"
   v-touch:pan="onPan"
-  v-bind:class="{disabled:disabled}"
-  v-show="!disabled"
+  v-bind:class="computedClass"
+  v-bind:id="id"
+  v-if="!disabled"
+  v-el:dh
   @click="click"
   )
 </template>
 
 <script lang="coffee">
 module.exports =
-
+  mixins: [
+    require("vue-mixins/style")
+    require("vue-mixins/class")
+  ]
   props:
+    "id":
+      type: String
+    "style":
+      default: ->
+    "class":
+      default: ->
     "factor":
-      type:Number
+      type: Number
       default: 2
+      coerce: Number
     "maxLeft":
-      type:Number
+      type: Number
       default: 0
+      coerce: Number
     "maxRight":
-      type:Number
+      type: Number
       default: 0
+      coerce: Number
     "offset":
       type: Number
       default: 0
+      coerce: Number
     "zIndex":
-      type:Number
+      type: Number
       default: 1002
+      coerce: Number
     "disabled":
       type: Boolean
       default: false
-  data: ->
-    atMax: false
-    pos: null
-    style:
+  computed:
+    mergeStyle: ->
       height: "100%"
       position: "absolute"
       top: 0
       zIndex: @zIndex
-
-  watch:
-    "zIndex": (val) -> @style.zIndex = val
+  data: ->
+    atMax: false
+    pos: null
 
   methods:
     click: (e) ->
