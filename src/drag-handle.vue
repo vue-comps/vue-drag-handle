@@ -70,8 +70,10 @@ module.exports =
           @pos = x:e.srcEvent.x,y:e.srcEvent.y
           if @maxRight > 0 and dX >= @maxRight
             @$emit "right"
+            @$emit "max","right"
           else if @maxLeft > 0 and dX <= -@maxLeft
             @$emit "left"
+            @$emit "max","left"
           else
             @$emit "aborted"
         else if @maxRight > 0 and dX >= 0

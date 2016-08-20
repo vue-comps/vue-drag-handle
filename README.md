@@ -53,8 +53,9 @@ For examples see [`dev/`](dev/).
 | Name |  description |
 | ---:| --- |
 | move |  will be emitted on move. Argument is the current position (can be negative) |
-| left |  will be emitted on end of panning if move reached max-left |
-| right |  will be emitted on end of panning if move reached max-right |
+| left |  (deprecated) will be emitted on end of panning if move reached max-left |
+| right | (deprecated)  will be emitted on end of panning if move reached max-right |
+| max |  will be emitted on end of panning with argument `left` when `max-left` is reached or `right` when `max-right` is reached |
 | aborted | will be emitted when panning didn't reach max-left or max-right |
 | clean-click | will be emitted on click which is no mouseup of final panning |
 
