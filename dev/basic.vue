@@ -1,24 +1,24 @@
 <template lang="pug">
 .container
-  .thing(v-bind:style="style", v-el:thing)
+  .thing(v-bind:style="style", ref="thing")
   drag-handle(
-    @move="move"
-    @right="open"
-    @aborted="close"
-    v-bind:disabled="!active || opened"
-    v-bind:max-right="200"
-    style="width: 20px;left:0;background-color:black;opacity:0.5"
-    v-ref:opener
+    @move="move",
+    @right="open",
+    @aborted="close",
+    :disabled="!active || opened",
+    :max-right="200",
+    style="width: 20px;left:0;background-color:black;opacity:0.5",
+    ref="opener"
   )
   drag-handle(
-    @move="move"
-    @left="close"
-    @aborted="open"
-    v-bind:disabled="!active || !opened"
-    v-bind:max-left="200"
-    v-bind:offset="200"
-    style="width: 70%;right:0;background-color:black;opacity:0.5"
-    v-ref:closer
+    @move="move",
+    @left="close",
+    @aborted="open",
+    :disabled="!active || !opened",
+    :max-left="200",
+    :offset="200",
+    style="width: 70%;right:0;background-color:black;opacity:0.5",
+    ref="closer"
   )
   p &lt;&lt; drag
   div(style="margin-left:200px")
@@ -34,13 +34,13 @@ module.exports =
   mixins: [
     require("vue-mixins/vue")
   ]
-  beforeCompile: ->
+  created: ->
     @Vue.use(require('vue-touch'))
   data: ->
     active: true
     opened: false
     style:
-      top: 0
+      top: "0"
       width: "200px"
       left: "-200px"
       height: "100%"
@@ -54,7 +54,7 @@ module.exports =
     move: (position) ->
       @style.left = -200+position+ "px"
     open: ->
-      @style.left = 0
+      @style.left = "0"
       @opened = true
     close: ->
       @style.left = "-200px"

@@ -11,7 +11,12 @@ To make something responsive to dragging, a drag-handle is needed.
 # Install
 
 ```sh
-npm install --save-dev vue-drag-handle vue-touch
+npm install --save-dev vue-drag-handle
+// vue touch@next - not released on npm until now
+npm install --save-dev git://github.com/vuejs/vue-touch.git#next
+
+// vue@1.0
+npm install --save-dev vue-drag-handle@1 vue-touch@1
 ```
 or include `build/bundle.js`.
 
@@ -39,26 +44,29 @@ components:
 For examples see [`dev/`](dev/).
 
 #### Props
-| Name | type | default | description |
-| ---:| --- | ---| --- |
-| factor | Number | 2 | speed factor which is multiplied with the movement |
-| z-index | Number | 1002 | z-index of the overlay |
-| max-left | Number | 0 | maximum panning to the left |
-| max-right | Number | 0 | maximum panning to the right |
-| offset | Number | 0 | will be added to the position on `move` event |
-| disabled | Boolean |  false | set to disable |
+Name | type | default | description
+---:| --- | ---| ---
+factor | Number | 2 | speed factor which is multiplied with the movement
+z-index | Number | 1002 | z-index of the overlay
+max-left | Number | 0 | maximum panning to the left
+max-right | Number | 0 | maximum panning to the right
+offset | Number | 0 | will be added to the position on `move` event
+disabled | Boolean |  false | set to disable
 
 
 #### Events
-| Name |  description |
-| ---:| --- |
-| move |  will be emitted on move. Argument is the current position (can be negative) |
-| left |  (deprecated) will be emitted on end of panning if move reached max-left |
-| right | (deprecated)  will be emitted on end of panning if move reached max-right |
-| max |  will be emitted on end of panning with argument `left` when `max-left` is reached or `right` when `max-right` is reached |
-| aborted | will be emitted when panning didn't reach max-left or max-right |
-| clean-click | will be emitted on click which is no mouseup of final panning |
+Name |  description
+---:| ---
+move |  will be emitted on move. Argument is the current position (can be negative)
+left |  (deprecated) will be emitted on end of panning if move reached max-left
+right | (deprecated)  will be emitted on end of panning if move reached max-right
+max |  will be emitted on end of panning with argument `left` when `max-left` is reached or `right` when `max-right` is reached
+aborted | will be emitted when panning didn't reach max-left or max-right
+clean-click | will be emitted on click which is no mouseup of final panning
 
+## Changelog
+- 2.0.0  
+now compatible with vue 2.0.0  
 
 # Development
 Clone repository.

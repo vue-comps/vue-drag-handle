@@ -55,7 +55,7 @@ describe "drag-handle", ->
       env = loadComp(require("../dev/basic.vue"))
       opener = env.$refs.opener
       closer = env.$refs.closer
-      thing = env.$els.thing
+      thing = env.$refs.thing
 
     after ->
       #unloadComp(env)
@@ -63,9 +63,11 @@ describe "drag-handle", ->
     it "should be there", (done) ->
       startCond()
       env.$nextTick ->
-        should.exist opener.$els.dh
-        should.not.exist closer.$els.dh
-        box = opener.$els.dh.getBoundingClientRect()
+        should.exist opener.$el
+        opener.$el.nodeType.should.equal 1
+        should.exist closer.$el
+        closer.$el.nodeType.should.equal 8
+        box = opener.$el.getBoundingClientRect()
         box.top.should.equal 0
         box.left.should.equal 0
         box.bottom.should.equal box.height
@@ -73,7 +75,7 @@ describe "drag-handle", ->
 
     it "should move and abort", (done) ->
       startCond()
-      pan opener.$els.dh,10,30, (cb) ->
+      pan opener.$el,10,30, (cb) ->
         box = thing.getBoundingClientRect()
         box.left.should.equal -200+20*2, "move"
         cb ->
@@ -83,7 +85,7 @@ describe "drag-handle", ->
 
     it "should open", (done) ->
       startCond()
-      pan opener.$els.dh,10,110, (cb) ->
+      pan opener.$el,10,110, (cb) ->
         box = thing.getBoundingClientRect()
         box.left.should.equal 0, "move"
         cb ->
@@ -93,8 +95,8 @@ describe "drag-handle", ->
 
     it "should close", (done) ->
       startCond(opened:true)
-      box = closer.$els.dh.getBoundingClientRect()
-      pan closer.$els.dh,box.left+1,box.left-100, (cb) ->
+      box = closer.$el.getBoundingClientRect()
+      pan closer.$el,box.left+1,box.left-100, (cb) ->
         box = thing.getBoundingClientRect()
         box.left.should.equal -200, "move"
         cb ->
@@ -106,6 +108,8 @@ describe "drag-handle", ->
     it "should disable", (done) ->
       startCond(active: false)
       env.$nextTick ->
-        should.not.exist opener.$els.dh
-        should.not.exist closer.$els.dh
+        should.exist opener.$el
+        opener.$el.nodeType.should.equal 8
+        should.exist closer.$el
+        closer.$el.nodeType.should.equal 8
         done()

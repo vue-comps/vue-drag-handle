@@ -1,12 +1,12 @@
 // out: ..
 <template lang="pug">
 .drag-handle(
-  v-bind:style="computedStyle"
-  v-touch:pan="onPan"
-  v-bind:class="computedClass"
-  v-bind:id="id"
-  v-if="!disabled"
-  v-el:dh
+  :style="computedStyle",
+  v-touch:pan="onPan",
+  :class="computedClass",
+  :id="id",
+  v-if="!disabled",
+
   @click="click"
   )
 </template>
@@ -18,40 +18,35 @@ module.exports =
     require("vue-mixins/class")
   ]
   props:
-    "id":
+    id:
       type: String
-    "style":
+    style:
       default: ->
-    "class":
+    class:
       default: ->
-    "factor":
+    factor:
       type: Number
       default: 2
-      coerce: Number
-    "maxLeft":
+    maxLeft:
       type: Number
       default: 0
-      coerce: Number
-    "maxRight":
+    maxRight:
       type: Number
       default: 0
-      coerce: Number
-    "offset":
+    offset:
       type: Number
       default: 0
-      coerce: Number
-    "zIndex":
+    zIndex:
       type: Number
       default: 1002
-      coerce: Number
-    "disabled":
+    disabled:
       type: Boolean
       default: false
   computed:
     mergeStyle: ->
       height: "100%"
       position: "absolute"
-      top: 0
+      top: "0"
       zIndex: @zIndex
   data: ->
     atMax: false
