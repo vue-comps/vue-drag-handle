@@ -1,3 +1,5 @@
+# DEPRECATED see [cerijs](https://github.com/cerijs)
+
 # vue-drag-handle
 
 To make something responsive to dragging, a drag-handle is needed.
@@ -12,7 +14,7 @@ To make something responsive to dragging, a drag-handle is needed.
 
 ```sh
 npm install --save-dev vue-drag-handle
-// vue touch@next - not released on npm until now
+// vue touch@next - not released on npm currently
 npm install --save-dev git://github.com/vuejs/vue-touch.git#next
 
 // vue@1.0
